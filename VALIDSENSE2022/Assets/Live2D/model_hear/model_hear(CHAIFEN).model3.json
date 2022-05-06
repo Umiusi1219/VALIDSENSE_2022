@@ -1,0 +1,22 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "model_hear(CHAIFEN).moc3",
+		"Textures": [
+			"model_hear(CHAIFEN).2048/texture_00.png"
+		],
+		"DisplayInfo": "model_hear(CHAIFEN).cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
