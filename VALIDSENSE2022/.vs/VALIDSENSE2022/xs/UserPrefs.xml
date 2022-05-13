@@ -1,0 +1,41 @@
+﻿<Properties StartupConfiguration="{CC9EE8F4-5637-9895-6AEC-38CE63E8BA22}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Chan/MainGame/Notes/PlayerInput.cs">
+    <Files>
+      <File FileName="Assets/Chan/Scripts/Skill.cs" Line="1" Column="1" />
+      <File FileName="Assets/Chan/MainGame/Notes/PlayerInput.cs" Line="44" Column="66" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="VALIDSENSE2022" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Chan" expanded="True">
+                <Node name="MainGame" expanded="True">
+                  <Node name="Notes" expanded="True">
+                    <Node name="PlayerInput.cs" selected="True" />
+                  </Node>
+                </Node>
+                <Node name="Scripts" expanded="True" />
+              </Node>
+              <Node name="Editor" expanded="True">
+                <Node name="CriWare" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="f9c05d71-81e7-4383-919b-6ab81c69a6d0" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

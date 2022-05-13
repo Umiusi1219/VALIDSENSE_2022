@@ -43,11 +43,11 @@ public class TutorialPlayer : MonoBehaviour
         } 
         if(Input.GetKeyDown(KeyCode.D))
         {
-            MusicPlayer.instance.SE_Tap(0);
+            MusicPlayer.instance.SETap(0);
         }
         if(Input.GetKeyDown(KeyCode.F))
         {
-            MusicPlayer.instance.SE_Tap(1);
+            MusicPlayer.instance.SETap(1);
         }
         //Timer = MusicData.Timer;
         Timing.text = PlayTime + "ms";
