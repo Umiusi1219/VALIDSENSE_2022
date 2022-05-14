@@ -116,7 +116,7 @@ public class CriAtomConfig {
 	/** ASR出力チャンネル数 */
 	public int asrOutputChannels  = 0;
 	/** 乱数種に時間（System.DateTime.Now.Ticks）を使用するかどうか */
-	public bool useRandomSeedWithTime = false;
+	public bool useRandomSeedWithTime = true;
 	/** 再生単位でのカテゴリ参照数 */
 	public int categoriesPerPlayback = 4;
 	/** 最大バス数 */
@@ -344,7 +344,6 @@ public class CriWareInitializer : CriMonoBehaviour {
 		/* シーンチェンジ後もオブジェクトを維持するかどうかの設定 */
 		if (dontDestroyOnLoad) {
 			DontDestroyOnLoad(transform.gameObject);
-			DontDestroyOnLoad(CriWare.Common.managerObject);
 		}
 	}
 

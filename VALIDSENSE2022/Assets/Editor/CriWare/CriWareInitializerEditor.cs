@@ -10,7 +10,7 @@ using System;
 
 
 [CustomEditor(typeof(CriWareInitializer))]
-public class CriWareInitializerEditor : Editor
+public class CriWareInitializerEditor : UnityEditor.Editor
 {
 	private void GenToggleField(string label_str, string tooltip, ref bool field_value)
 	{
@@ -195,7 +195,6 @@ public class CriWareInitializerEditor : Editor
 				}
 
 
-				GenToggleField("VR Mode", "", ref initializer.atomConfig.vrMode);
 				GenToggleField("Keep Playing Sound On Pause", "", ref initializer.atomConfig.keepPlayingSoundOnPause);
 
 				showAtomStandardVoicePoolConfig = EditorGUILayout.Foldout(showAtomStandardVoicePoolConfig, "Standard Voice Pool Config");

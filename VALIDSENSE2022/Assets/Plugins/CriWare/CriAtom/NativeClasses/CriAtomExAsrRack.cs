@@ -271,6 +271,34 @@ public partial class CriAtomExAsrRack : CriDisposable
 	}
 
 	/**
+	 * <summary>名前指定によるAISACコントロール値設定</summary>
+	 * <param name='rackId'>ラックのID</param>
+	 * <param name='controlName'>AISACコントロール名</param>
+	 * <param name='value'>AISACコントロール値</param>
+	 * <remarks>
+	 * <para header='説明'>名前指定でAISACコントロール値を設定します。</para>
+	 * </remarks>
+	 */
+	public static void SetAisacControl(int rackId, string controlName, float value)
+	{
+		criAtomExAsrRack_SetAisacControlByName(rackId, controlName, value);
+	}
+
+	/**
+	 * <summary>ID指定によるAISACコントロール値設定</summary>
+	 * <param name='rackId'>ラックのID</param>
+	 * <param name='controlId'>AISACコントロールID</param>
+	 * <param name='value'>AISACコントロール値</param>
+	 * <remarks>
+	 * <para header='説明'>ID指定でAISACコントロール値を設定します。</para>
+	 * </remarks>
+	 */
+	public static  void SetAisacControl(int rackId, int controlId, float value)
+	{
+		criAtomExAsrRack_SetAisacControlById(rackId, (ushort)controlId, value);
+	}
+
+	/**
 	 * <summary>ASRラックの破棄</summary>
 	 * <remarks>
 	 * <para header='説明'>ASRラックを破棄します。</para>
@@ -382,9 +410,15 @@ public partial class CriAtomExAsrRack : CriDisposable
 	private static extern void criAtomExAsrRack_GetPerformanceInfo(Int32 rackId, out PerformanceInfo perfInfo);
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	private static extern void criAtomExAsrRack_ResetPerformanceMonitor(Int32 rackId);
+	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
+	private static extern void criAtomExAsrRack_SetAisacControlById(Int32 rackId, ushort controlId, float value);
+	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
+	private static extern void criAtomExAsrRack_SetAisacControlByName(Int32 rackId, string controlName, float value);
 	#else
 	private static void criAtomExAsrRack_GetPerformanceInfo(Int32 rackId, out PerformanceInfo perfInfo) { perfInfo = new PerformanceInfo(); }
 	private static void criAtomExAsrRack_ResetPerformanceMonitor(Int32 rackId) { }
+	private static void criAtomExAsrRack_SetAisacControlById(Int32 rackId, ushort controlId, float value) { }
+	private static void criAtomExAsrRack_SetAisacControlByName(Int32 rackId, string controlName, float value) { }
 	#endif
 
 	#endif

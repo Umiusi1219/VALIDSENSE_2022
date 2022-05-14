@@ -406,6 +406,10 @@ public class CriAtomExMic : CriDisposable
 #endif
 	}
 
+	~CriAtomExMic(){
+		Dispose();
+	}
+
 	/**
 	 * <summary>マイクの破棄</summary>
 	 * <remarks>

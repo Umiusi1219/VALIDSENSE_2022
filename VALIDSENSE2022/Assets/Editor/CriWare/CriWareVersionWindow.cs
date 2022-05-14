@@ -18,6 +18,7 @@ public sealed class CriWareVersionWindow : EditorWindow
 		new string[]{"PC",      "PCx64",          "CRIWARE Monitor Unity", "x86_64/cri_ware_unity.dll"},
 		new string[]{"PC",      "PCx86",          "CRIWARE Monitor Unity", "x86/cri_ware_unity.dll"},
 		new string[]{"MacOSX",  "Mac_X86_64",     "CRIWARE Monitor Unity", "cri_ware_unity.bundle/Contents/MacOS/cri_ware_unity"},
+		new string[]{"MacOSX",  "Mac_ARMv8_A64",  "CRIWARE Monitor Unity", "cri_ware_unity.bundle/Contents/MacOS/cri_ware_unity"},
 		new string[]{"Android", "Android",        "CRIWARE Monitor Unity", "Android/libs/arm64-v8a/libcri_ware_unity.so"},
 		new string[]{"Android", "Android",        "CRIWARE Monitor Unity", "Android/libs/armeabi-v7a/libcri_ware_unity.so"},
 		new string[]{"Android", "Android",        "CRIWARE Monitor Unity", "Android/libs/x86/libcri_ware_unity.so"},
@@ -381,7 +382,7 @@ public sealed class CriWareVersionWindow : EditorWindow
 		var versionAppendixRegex    = new System.Text.RegularExpressions.Regex("^Append: (.*)$");
 
 		/* Get informations only if the target name is exactly the same. For libraries with multiple targets in a single file. */
-		bool checkTargetEquality = targetInfo[0].Equals("iOS") || targetInfo[0].Equals("tvOS");
+		bool checkTargetEquality = targetInfo[0].Equals("iOS") || targetInfo[0].Equals("tvOS") || targetInfo[0].Equals("MacOSX");
 
 		int pos = 0;
 		while (true) {

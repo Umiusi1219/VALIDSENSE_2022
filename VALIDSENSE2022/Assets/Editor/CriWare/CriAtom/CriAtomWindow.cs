@@ -30,10 +30,16 @@ public sealed class CriAtomWindow : EditorWindow
 	private bool useCopyAssetsFromCriAtomCraft = false;
 	private string[] popupAcfList = null;
 	private Color currentGuiColor;
+	private float cuesheetListWidth = 200;
+	private float cueIdListWidth = 70;
+	private bool isResizingLeftSplitter = false;
+	private bool isResizingRightSplitter = false;
+	private Vector2 lastMousePosLeftSplitter = new Vector2();
+	private Vector2 lastMousePosRightSplitter = new Vector2();
 
 	private GameObject targetObject = null;
 	private CriAtomSource targetAtomSource = null;
-	private CriAtomEditor.PreviewPlayer previewPlayer = null;
+	private CriWare.Editor.CriAtomEditorUtilities.PreviewPlayer previewPlayer = null;
 	private CriAtomExAcb previewAcb = null;
 	private string lastAcbName = null;
 
@@ -125,7 +131,7 @@ public sealed class CriAtomWindow : EditorWindow
 
 	private void PlayPreview(CriAtomExAcb acb, string cuename) {
 		if (previewPlayer == null) {
-			previewPlayer = new CriAtomEditor.PreviewPlayer();
+			previewPlayer = new CriWare.Editor.CriAtomEditorUtilities.PreviewPlayer();
 		}
 		previewPlayer.Play(acb, cuename);
 	}
@@ -143,7 +149,7 @@ public sealed class CriAtomWindow : EditorWindow
 				lastAcbName = "";
 			}
 		}
-		CriAtomEditor.InitializePluginForEditor();
+			CriWare.Editor.CriAtomEditorUtilities.InitializeLibrary();
 	}
 
 	private void GUISearchAndReload()
@@ -187,6 +193,7 @@ public sealed class CriAtomWindow : EditorWindow
 		const int cCueListItemHeight = 18;
 		var acbInfoList = projInfo.GetAcbInfoList(false, searchPath);
 		bool isCueSheetAvailable = false;
+		Rect splitterRect;
 
 		if (isCueSheetListInitiated == true) {
 			lastPreviewCueSheetId = this.selectedCueSheetId;
@@ -197,7 +204,7 @@ public sealed class CriAtomWindow : EditorWindow
 		EditorGUILayout.BeginHorizontal();
 
 		/* cuesheet list */
-		using (var cuesheetListScope = new EditorGUILayout.VerticalScope("CN Box", GUILayout.Width(200))) {
+		using (var cuesheetListScope = new EditorGUILayout.VerticalScope("CN Box", GUILayout.Width(cuesheetListWidth))) {
 			using (var horizontalScope = new EditorGUILayout.HorizontalScope()) {
 				if (GUILayout.Button("Cue Sheet", toolBarButtonStyle)) {
 					projInfo.SortCueSheet();
@@ -222,6 +229,9 @@ public sealed class CriAtomWindow : EditorWindow
 				GUI.color = currentGuiColor;
 			}
 		}
+		
+		splitterRect = EditorGUILayout.GetControlRect(false, 2, "CN Box", GUILayout.Width(2), GUILayout.ExpandHeight(true));
+		cuesheetListWidth += GUILayoutResizeHandler(splitterRect, true, ref lastMousePosLeftSplitter, ref isResizingLeftSplitter).x;
 
 		if (this.selectedCueSheetId != lastPreviewCueSheetId) {
 			this.selectedCueInfoIndex = 0;
@@ -242,7 +252,9 @@ public sealed class CriAtomWindow : EditorWindow
 						this.selectedCueInfoIndex = 0;
 					}
 				}
-				if (GUILayout.Button("Cue ID", toolBarButtonStyle, GUILayout.Width(70))) {
+				splitterRect = EditorGUILayout.GetControlRect(false, 20, toolBarButtonStyle, GUILayout.Width(2));
+				cueIdListWidth -= GUILayoutResizeHandler(splitterRect, true, ref lastMousePosRightSplitter, ref isResizingRightSplitter).x;
+				if (GUILayout.Button("Cue ID", toolBarButtonStyle, GUILayout.Width(cueIdListWidth + 20))) {
 					if (isCueSheetAvailable) {
 						acbInfoList[selectedCueSheetId].SortCueInfo(CriAtomWindowInfo.CueSortType.Id);
 						this.selectedCueInfoIndex = 0;
@@ -276,13 +288,13 @@ public sealed class CriAtomWindow : EditorWindow
 									this.selectedCueInfoIndex = i;
 									playButtonPushed = true;
 								}
-								if (GUILayout.Button(currentList[i].name, EditorStyles.label)) {
+								if (GUILayout.Button(currentList[i].name + " (" + (currentList[i].length < 0 ? "loop" : Ms2String(currentList[i].length)) + ")", EditorStyles.label)) {
 									if (selectedCueInfoIndex != i) {
 										StopPreview();
 									}
 									this.selectedCueInfoIndex = i;
 								}
-								GUILayout.Label(currentList[i].id.ToString(), GUILayout.Width(40));
+								GUILayout.Label(currentList[i].id.ToString(), GUILayout.Width(cueIdListWidth));
 							}
 						}
 						GUILayout.Space(Mathf.Max(0, currentList.Count - idFirstCueInView - listLengthInView) * cCueListItemHeight);
@@ -328,7 +340,13 @@ public sealed class CriAtomWindow : EditorWindow
 				cueName = selectedCueInfo.name;
 				userData = selectedCueInfo.comment;
 			}
-			EditorGUILayout.LabelField("Cue Name", cueName);
+			GUILayout.BeginHorizontal();
+			GUILayout.Label("Cue Name", GUILayout.Width(145));
+			GUILayout.Label(cueName, GUILayout.ExpandWidth(false));
+			if (GUILayout.Button("Copy", GUILayout.Width(100))) {
+				GUIUtility.systemCopyBuffer = cueName;
+			}
+			GUILayout.EndHorizontal();
 			EditorGUILayout.LabelField("User Data", userData, EditorStyles.wordWrappedLabel, GUILayout.Height(28));
 
 			if (GUI.changed && isCueSheetAvailable) {
@@ -558,6 +576,44 @@ public sealed class CriAtomWindow : EditorWindow
 			newCriAtomSource.cueName = acbInfo.cueInfoList[this.selectedCueInfoIndex].name;
 			Selection.activeObject = go;
 		}
+	}
+
+	private Vector2 GUILayoutResizeHandler(Rect rect, bool isVertical, ref Vector2 lastMousePos, ref bool isResizing) {
+		EditorGUIUtility.AddCursorRect(rect, isVertical ? MouseCursor.SplitResizeLeftRight : MouseCursor.SplitResizeUpDown);
+
+		if (Event.current.type == EventType.MouseDown && rect.Contains(Event.current.mousePosition)) {
+			lastMousePos = Event.current.mousePosition;
+			isResizing = true;
+		}
+
+		if (isResizing) {
+			var mousePos = Event.current.mousePosition;
+			GUI.DrawTexture(new Rect(isVertical ? new Vector2(mousePos.x, rect.y) : new Vector2(rect.x, mousePos.y), rect.size), EditorGUIUtility.whiteTexture);
+			Repaint();
+			if (new Rect(Vector2.zero, this.position.size).Contains(mousePos) == false) {
+				isResizing = false;
+			}
+		}
+
+		if (Event.current.type == EventType.MouseUp) {
+			if (isResizing) {
+				isResizing = false;
+				return Event.current.mousePosition - lastMousePos;
+			}
+			isResizing = false;
+		}
+
+		return Vector2.zero;
+	}
+
+	private string Ms2String(long timeMs) {
+		long hh, mm, ss, ms;
+		hh = timeMs / 3600000;
+		mm = (timeMs % 3600000) / 60000;
+		ss = (timeMs % 60000) / 1000;
+		ms = timeMs % 1000;
+		string res = ((hh > 0) ? hh.ToString("00") + ":" : "") + ((mm > 0) ? mm.ToString("00") + ":" : "") + ss.ToString("00") + ":" + ms.ToString("000");
+		return res;
 	}
 
 	private bool CriFoldout(bool foldout, string content) {

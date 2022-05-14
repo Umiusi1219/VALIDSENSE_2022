@@ -228,16 +228,26 @@ public class CriAtomSource : CriMonoBehaviour
 	public CriAtomRegion region3d {
 		get { return this.currentRegion; }
 		set {
+			if (this.currentRegion == value) {
+				return;
+			}
 			if (this._use3dPositioning == false) {
 				Debug.LogWarning("[CRIWARE] Cannot set 3D Region on audio source with 3d positioning disabled.");
 				return;
 			}
-
+			/* Remove the reference frome the current region  */
+			if (this.currentRegion != null) {
+				this.currentRegion.referringSources.Remove(this);
+			}
 			CriAtomEx3dRegion regionHandle = (value == null) ? null : value.region3dHn;
 			if (this.source != null) {
 				this.source.Set3dRegion(regionHandle);
 				this.source.Update();
 				this.currentRegion = value;
+				/* Seup a reference from a new region */
+				if (this.currentRegion != null) {
+					this.currentRegion.referringSources.Add(this);
+				}
 			} else {
 				Debug.LogError("[CRIWARE] Internal: 3D Positioning is not initialized correctly.");
 				this.currentRegion = null;
@@ -591,6 +601,7 @@ public class CriAtomSource : CriMonoBehaviour
 	protected virtual void InternalFinalize()
 	{
 		this.initialized = false;
+		this.region3d = null;
 		this.player.Dispose();
 		this.player = null;
 		this.source.Dispose();

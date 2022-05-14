@@ -1808,6 +1808,22 @@ public static class CriAtomExCategory
 	}
 
 	/**
+	 * <summary>REACT動作ステータス</summary>
+	 * <remarks>
+	 * <para header='説明'>REACTの動作状態を示す値です<br/></para>
+	 * </remarks>
+	 * <seealso cref='CriAtomExCategory::GetReactStatus'/>
+	 */
+	public enum ReactStatus
+	{
+		Stop = 0,    /**< 停止中 */
+		FadeOut,     /**< 動作開始中 */
+		Hold,        /**< 動作継続中 */
+		FadeIn,      /**< 動作終了中 */
+		Error,       /**< エラー */
+	}
+
+	/**
 	 * <summary>名前指定によるカテゴリに対するボリューム設定</summary>
 	 * <param name='name'>カテゴリ名</param>
 	 * <param name='volume'>ボリューム値</param>
@@ -2098,6 +2114,7 @@ public static class CriAtomExCategory
 	 * 存在しないREACT名を指定した場合は、エラーコールバックが返ります。<br/></para>
 	 * </remarks>
 	 * <seealso cref='CriAtomExCategory::GetReactParameter'/>
+	 * <seealso cref='CriAtomExCategory::GetReactStatus'/>
 	 */
 	public static void SetReactParameter(string name, ReactParameter parameter)
 	{
@@ -2182,6 +2199,20 @@ public static class CriAtomExCategory
 		return criAtomExCategory_GetCurrentAisacControlValueByName(categoryName, aisacControlName, out controlValue);
 	}
 
+	/**
+	 * <summary>REACT動作ステータスの取得</summary>
+	 * <param name='reactName'>REACT名</param>
+	 * <returns>REACT動作ステータス</returns>
+	 * <remarks>
+	 * <para header='説明'>REACTの動作ステータスを取得します<br/></para>
+	 * <para header='注意'>存在しないREACT名を指定した場合は、エラーコールバックが発生しReactStatus.Errorが返ります。<br/></para>
+	 * </remarks>
+	 */
+	public static ReactStatus GetReactStatus(string reactName)
+	{
+		return criAtomExCategory_GetReactStatus(reactName);
+	}
+
 	#region DLL Import
 	#if !CRIWARE_ENABLE_HEADLESS_MODE
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
@@ -2253,6 +2284,9 @@ public static class CriAtomExCategory
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	private static extern bool criAtomExCategory_GetCurrentAisacControlValueByName(string category_name, string aisac_control_name, out float control_value);
 
+	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
+	private static extern ReactStatus criAtomExCategory_GetReactStatus(string react_name);
+
 	#else
 	private static void criAtomExCategory_SetVolumeByName(string name, float volume) { }
 	private static float criAtomExCategory_GetVolumeByName(string name) { return 1.0f; }
@@ -2278,7 +2312,7 @@ public static class CriAtomExCategory
 	private static bool criAtomExCategory_GetAttachedAisacInfoById(uint id, int aisacAttachedIndex, IntPtr aisacInfo) { return false; }
 	private static bool criAtomExCategory_GetAttachedAisacInfoByName(string name, int aisacAttachedIndex, IntPtr aisacInfo) { return false; }
 	private static bool criAtomExCategory_GetCurrentAisacControlValueByName(string category_name, string aisac_control_name, out float control_value) { control_value = 0.0f; return false;}
-
+	private static ReactStatus criAtomExCategory_GetReactStatus(string react_name) { return ReactStatus.Error; }
 	#endif
 
 	#endregion

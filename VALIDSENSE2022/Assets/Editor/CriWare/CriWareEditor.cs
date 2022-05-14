@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class CriWareEditor : Editor
+public class CriWareEditor : UnityEditor.Editor
 {
 	[MenuItem("GameObject/CRIWARE/Create CRIWARE Library Initializer", false, 150)]
 	public static void CreateCriwareLibraryInitalizer()

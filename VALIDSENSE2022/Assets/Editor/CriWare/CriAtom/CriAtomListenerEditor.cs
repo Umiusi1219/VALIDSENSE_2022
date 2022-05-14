@@ -4,14 +4,11 @@
  *
  ****************************************************************************/
 
-using UnityEngine;
 using UnityEditor;
-using System;
-using System.Collections;
 
 
 [CustomEditor(typeof(CriAtomListener))]
-public class CriAtomListenerEditor : Editor
+public class CriAtomListenerEditor : UnityEditor.Editor
 {
 } // end of class
 

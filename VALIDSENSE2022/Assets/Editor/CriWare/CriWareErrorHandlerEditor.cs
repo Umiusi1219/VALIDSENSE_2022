@@ -9,7 +9,7 @@ using UnityEditor;
 
 
 [CustomEditor(typeof(CriWareErrorHandler))]
-public class CriWareErrorHandlerEditor : Editor {
+public class CriWareErrorHandlerEditor : UnityEditor.Editor {
 	private SerializedProperty m_enableDebugPrintOnTerminal;
 	private SerializedProperty m_enableForceCrashOnError;
 	private SerializedProperty m_dontDestroyOnLoad;

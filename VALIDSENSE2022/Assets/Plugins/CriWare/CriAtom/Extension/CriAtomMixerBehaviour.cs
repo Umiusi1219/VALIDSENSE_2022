@@ -23,6 +23,7 @@ namespace CriTimeline.Atom
 		internal CriAtomSource m_Bind;
 		internal string m_AisacControls;
 		internal bool m_StopOnWrapping;
+		internal bool m_StopAtGraphEnd;
 
 		public Guid m_Guid { get; private set; }
 
@@ -55,7 +56,7 @@ namespace CriTimeline.Atom
 					CriAtomTimelinePreviewer.Instance.StopAllTracks();
 				}
 			} else {
-				if (m_Bind != null) {
+				if (m_Bind != null && this.m_StopAtGraphEnd) {
 					m_Bind.Stop();
 				}
 			}
@@ -85,7 +86,7 @@ namespace CriTimeline.Atom
 
 					if (m_Director.time >= clip.end ||
 						m_Director.time <= clip.start) {
-						if (clipBehaviour.IsClipPlaying) {
+						if (clipBehaviour.IsClipPlaying && criAtomClip.stopAtClipEnd) {
 							clipBehaviour.Stop(criAtomClip.stopWithoutRelease);
 						}
 					} else if (criAtomClip.muted == false) {

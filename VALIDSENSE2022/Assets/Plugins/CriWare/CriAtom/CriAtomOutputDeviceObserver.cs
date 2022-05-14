@@ -247,7 +247,7 @@ public class CriAtomOutputDeviceObserver : CriMonoBehaviour
 	}
 
 	private IEnumerator CoroutineForCheck_ANDROID() {
-		const float waitSec = 1.0f;
+		const float waitSec = 2.0f;
 		float time = 0.0f;
 		while (time < waitSec) {
 			yield return null;

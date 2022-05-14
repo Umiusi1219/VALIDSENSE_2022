@@ -7,8 +7,10 @@
 #if !UNITY_WEBGL
 	#define CRIATOMEX_SUPPORT_INSERTION_DSP
 	#define CRIATOMEX_SUPPORT_STANDARD_VOICE_POOL
-	#define CRIATOMEX_SUPPORT_WAVE_VOICE_POOL
 	#define CRIATOMEX_SUPPORT_RAW_PCM_VOICE_POOL
+#endif
+#if !(UNITY_WEBGL || UNITY_STADIA)
+ 	#define CRIATOMEX_SUPPORT_WAVE_VOICE_POOL
 #endif
 
 using System;
@@ -45,7 +47,7 @@ public abstract class CriAtomExVoicePool : CriDisposable
 	public enum VoicePoolId
 	{
 		/* 機種共通のボイスプールID */
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_ANDROID || UNITY_IOS || UNITY_TVOS || UNITY_PS3 || UNITY_PS4 || UNITY_PS5 || UNITY_WINRT || UNITY_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_WEBGL || UNITY_SWITCH || UNITY_STADIA || UNITY_STANDALONE_LINUX
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_ANDROID || UNITY_IOS || UNITY_TVOS || UNITY_PS3 || UNITY_PS4 || UNITY_PS5 || UNITY_WINRT || UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_WEBGL || UNITY_SWITCH || UNITY_STADIA || UNITY_STANDALONE_LINUX
 		StandardMemory          = StandardMemoryAsrVoicePoolId,     /**< 機種標準のメモリ再生ボイスプールID */
 		StandardStreaming       = StandardStreamingAsrVoicePoolId,  /**< 機種標準のストリーミング再生ボイスプールID */
 #elif UNITY_PSP2
@@ -58,7 +60,7 @@ public abstract class CriAtomExVoicePool : CriDisposable
 		HcaMxStreaming          = 5,                                /**< HCA-MXストリーミング再生ボイスプールID */
 
 		/* 機種固有のボイスプールID */
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_IOS || UNITY_TVOS || UNITY_PS3 || UNITY_WINRT || UNITY_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_WEBGL || UNITY_SWITCH || UNITY_STADIA || UNITY_STANDALONE_LINUX
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_IOS || UNITY_TVOS || UNITY_PS3 || UNITY_WINRT || UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_WEBGL || UNITY_SWITCH || UNITY_STADIA || UNITY_STANDALONE_LINUX
 #elif UNITY_ANDROID
 		LowLatencyMemory        = StandardMemoryNsrVoicePoolId,     /**< [Android] 低遅延メモリ再生ボイスプールID */
 		LowLatencyStreaming     = StandardStreamingNsrVoicePoolId,  /**< [Android] 低遅延ストリーミング再生ボイスプールID */
@@ -344,10 +346,15 @@ public class CriAtomExStandardVoicePool: CriAtomExVoicePool
 	 * <remarks>
 	 * <para header='説明'>標準ボイスプールを追加で作成します。<br/>
 	 * 6 チャンネル以上の音声を再生する場合、本 API でボイスプールを作成してください。<br/>
-	 * 再生終了後は、必ず、Dispose 関数でオブジェクトを破棄してください。<br/>
-	 * 特定の CriAtomExPlayer に対して、作成したボイスプールからボイスを取得するように明示的に設定したい場合は、
-	 * identifier としてデフォルトの 0 以外の値を指定して作成し、 CriAtomExPlayer::SetVoicePoolIdentifier 関数を
-	 * 呼び出してください。</para>
+	 * streamingFlag に false を指定した場合、メモリ再生ができるボイスプールが作成されます。<br/>
+	 * streamingFlag に true を指定した場合、メモリ再生に加えてストリーミング再生ができるボイスプールが作成されます。<br/>
+	 * maxSamplingRate には、作成するボイスプールで再生予定のキューに含まれるマテリアルの最大サンプリングレートを指定します。<br/>
+	 * ただしピッチ変化を行う場合は、ピッチの最大変化分の最大サンプリングレートを指定します。<br/>
+	 * タイムストレッチ機能を使用する場合は最大サンプリングレートをx2倍に増やす必要があります。<br/></para>
+	 * <para header='注意'>再生終了後は、必ず、Dispose 関数でオブジェクトを破棄してください。<br/>
+	 * 特定の CriAtomExPlayer に対して、作成したボイスプールからボイスを取得するように明示的に設定したい場合は、<br/>
+	 * identifier としてデフォルトの 0 以外の値を指定して作成し、 CriAtomExPlayer::SetVoicePoolIdentifier 関数を<br/>
+	 * 呼び出してください。<br/></para>
 	 * </remarks>
 	 * <seealso cref='CriAtomExPlayer::SetVoicePoolIdentifier'/>
 	 */
@@ -445,6 +452,8 @@ public class CriAtomExWaveVoicePool: CriAtomExVoicePool
 	#endregion
 }
 
+#endif
+
 #if  CRIATOMEX_SUPPORT_RAW_PCM_VOICE_POOL
 
 /**
@@ -535,8 +544,6 @@ public class CriAtomExRawPcmVoicePool: CriAtomExVoicePool
 #endif
 	#endregion
 }
-
-#endif
 
 #endif
 

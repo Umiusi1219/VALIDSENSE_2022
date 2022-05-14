@@ -751,6 +751,25 @@ public class CriAtomExPlayer : CriDisposable
 	}
 
 	/**
+	 * <summary>再生処理に入力済みのエントリ数</summary>
+	 * <returns>エントリ数</returns>
+	 * <remarks>
+	 * <para header='説明'>連結再生用に入力したあと、実際に再生処理に入力されたエントリの数を取得します。<br/>
+	 * CriAtomExPlayer::Start を呼び出した際にリセットされ、再生中はエントリが入力される限り増加します。<br/>
+	 * 同一のエントリがループ再生されている場合は増加しません。<br/></para>
+	 * </remarks>
+	 * <seealso cref='CriAtomExPlayer::PrepareEntryPool'/>
+	 * <seealso cref='CriAtomExPlayer::EntryData'/>
+	 */
+	public int GetNumConsumedEntries()
+	{
+		if (this.entryPoolHandle == IntPtr.Zero) {
+			return 0;
+		}
+		return criAtomUnityEntryPool_GetNumConsumedEntries(this.entryPoolHandle);
+	}
+
+	/**
 	 * <summary>入力可能な連結再生用データの数</summary>
 	 */
 	public int entryPoolCapacity { get { return _entryPoolCapacity; } }
@@ -950,6 +969,9 @@ public class CriAtomExPlayer : CriDisposable
 	 */
 	public CriAtomExPlayback Start()
 	{
+		if (this.entryPoolHandle != IntPtr.Zero) {
+			criAtomUnityEntryPool_ResetCount(this.entryPoolHandle);
+		}
 		return new CriAtomExPlayback(criAtomExPlayer_Start(this.handle));
 	}
 
@@ -2226,19 +2248,17 @@ public class CriAtomExPlayer : CriDisposable
 	/**
 	 * <summary>設定されているセレクタ情報の削除</summary>
 	 * <param name='selector'>セレクタ名</param>
-	 * <param name='label'>ラベル名</param>
 	 * <remarks>
 	 * <para header='説明'>プレーヤに設定されている指定のセレクタ名とそれに紐づくラベル名の情報を削除します。<br/>
 	 * また削除後、::CriAtomExPlayer::Update 、::CriAtomExPlayer::UpdateAll を呼び出すことにより、
 	 * すでに再生中の音声に対してセレクタ情報の削除が行えますが、再生中音声が停止することはありません。</para>
 	 * </remarks>
-	 * <seealso cref='CriAtomExPlayer::UnsetSelectorLabel'/>
 	 * <seealso cref='CriAtomExPlayer::SetSelectorLabel'/>
 	 * <seealso cref='CriAtomExPlayer::ClearSelectorLabels'/>
 	 */
-	public void UnsetSelectorLabel(string selector, string label)
+	public void UnsetSelectorLabel(string selector)
 	{
-		criAtomExPlayer_UnsetSelectorLabel(this.handle, selector, label);
+		criAtomExPlayer_UnsetSelectorLabel(this.handle, selector);
 	}
 
 	/**
@@ -3533,6 +3553,12 @@ public class CriAtomExPlayer : CriDisposable
 	private static extern int criAtomUnityEntryPool_GetNumEntries(IntPtr pool);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
+	private static extern int criAtomUnityEntryPool_GetNumConsumedEntries(IntPtr pool);
+
+	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
+	private static extern void criAtomUnityEntryPool_ResetCount(IntPtr pool);
+
+	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	private static extern bool criAtomUnityEntryPool_EntryFile(IntPtr pool, IntPtr binder, string path, bool repeat, int max_path);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
@@ -3752,7 +3778,7 @@ public class CriAtomExPlayer : CriDisposable
 	private static extern void criAtomExPlayer_SetSelectorLabel(IntPtr player, string selector, string label);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
-	private static extern void criAtomExPlayer_UnsetSelectorLabel(IntPtr player, string selector, string label);
+	private static extern void criAtomExPlayer_UnsetSelectorLabel(IntPtr player, string selector);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	private static extern void criAtomExPlayer_ClearSelectorLabels(IntPtr player);
@@ -3816,6 +3842,8 @@ public class CriAtomExPlayer : CriDisposable
 	private static IntPtr criAtomUnityEntryPool_Create(IntPtr player, int capacity, int max_path, bool stopOnEmpty) { return new IntPtr(1); }
 	private static void criAtomUnityEntryPool_Destroy(IntPtr pool) { }
 	private static int criAtomUnityEntryPool_GetNumEntries(IntPtr pool) { return 0; }
+	private static int criAtomUnityEntryPool_GetNumConsumedEntries(IntPtr pool) { return 0; }
+	private static void criAtomUnityEntryPool_ResetCount(IntPtr pool) { }
 	private static bool criAtomUnityEntryPool_EntryFile(IntPtr pool, IntPtr binder, string path, bool repeat, int max_path) { return true; }
 	private static bool criAtomUnityEntryPool_EntryContentId(IntPtr pool,  IntPtr binder, int id, bool repeat) { return true; }
 	private static bool criAtomUnityEntryPool_EntryData(IntPtr pool, byte[] buffer, int size, bool repeat) { return true; }
@@ -3882,7 +3910,7 @@ public class CriAtomExPlayer : CriDisposable
 		IntPtr player, int aisac_attached_index, IntPtr aisac_info) { return false; }
 	private static void criAtomExPlayer_SetFirstBlockIndex(IntPtr player, int index) { }
 	private static void criAtomExPlayer_SetSelectorLabel(IntPtr player, string selector, string label) { }
-	private static void criAtomExPlayer_UnsetSelectorLabel(IntPtr player, string selector, string label) { }
+	private static void criAtomExPlayer_UnsetSelectorLabel(IntPtr player, string selector) { }
 	private static void criAtomExPlayer_ClearSelectorLabels(IntPtr player) { }
 	private static void criAtomExPlayer_SetSoundRendererType(IntPtr player, CriAtomEx.SoundRendererType type) { }
 	private static void criAtomExPlayer_SetRandomSeed(IntPtr player, uint seed) { }

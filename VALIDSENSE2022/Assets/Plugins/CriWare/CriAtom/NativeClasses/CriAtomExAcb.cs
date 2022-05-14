@@ -70,9 +70,7 @@ public class CriAtomExAcb : CriDisposable
 	 * ACBファイルのロードは、シーンの切り替わり等、負荷変動を許容できる
 	 * タイミングで行うようお願いいたします。<br/></para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_CalculateWorkSizeForLoadAcbFile'/>
-	 * <seealso cref='CriAtomExAcbHn'/>
-	 * <seealso cref='criAtomExPlayer_SetCueId'/>
+	 * <seealso cref='CriAtomExPlayer::SetCue'/>
 	 */
 	public static CriAtomExAcb LoadAcbFile(CriFsBinder binder, string acbPath, string awbPath)
 	{
@@ -129,9 +127,7 @@ public class CriAtomExAcb : CriDisposable
 	 * ACBファイルのロードは、シーンの切り替わり等、負荷変動を許容できる
 	 * タイミングで行うようお願いいたします。<br/></para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_CalculateWorkSizeForLoadAcbFile'/>
-	 * <seealso cref='CriAtomExAcbHn'/>
-	 * <seealso cref='criAtomExPlayer_SetCueId'/>
+	 * <seealso cref='CriAtomExPlayer::SetCue'/>
 	 */
 	public static CriAtomExAcb LoadAcbData(byte[] acbData, CriFsBinder awbBinder, string awbPath)
 	{
@@ -165,8 +161,8 @@ public class CriAtomExAcb : CriDisposable
 	 * そのため、本関数実行中に他スレッドでAtomプレーヤの作成／破棄を行うと、
 	 * アクセス違反やデッドロック等の重大な不具合を誘発する恐れがあります。</para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_LoadAcbData'/>
-	 * <seealso cref='criAtomExAcb_LoadAcbFile'/>
+	 * <seealso cref='CriAtomExAcb::LoadAcbData'/>
+	 * <seealso cref='CriAtomExAcb::LoadAcbFile'/>
 	 */
 	public override void Dispose()
 	{
@@ -225,8 +221,7 @@ public class CriAtomExAcb : CriDisposable
 	 * <para header='説明'>キュー名を指定して、キュー情報を取得します。<br/>
 	 * 指定した名前のキューが存在しない場合、falseが返ります。<br/></para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_GetCueInfoById'/>
-	 * <seealso cref='criAtomExAcb_GetCueInfoByIndex'/>
+	 * <seealso cref='CriAtomExAcb::GetCueInfoByIndex'/>
 	 */
 	public bool GetCueInfo(string cueName, out CriAtomEx.CueInfo info)
 	{
@@ -246,8 +241,7 @@ public class CriAtomExAcb : CriDisposable
 	 * <para header='説明'>キューIDを指定して、キュー情報を取得します。<br/>
 	 * 指定したIDのキューが存在しない場合、falseが返ります。<br/></para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_GetCueInfoById'/>
-	 * <seealso cref='criAtomExAcb_GetCueInfoByIndex'/>
+	 * <seealso cref='CriAtomExAcb::GetCueInfoByIndex'/>
 	 */
 	public bool GetCueInfo(int cueId, out CriAtomEx.CueInfo info)
 	{
@@ -267,8 +261,7 @@ public class CriAtomExAcb : CriDisposable
 	 * <para header='説明'>キューインデックスを指定して、キュー情報を取得します。<br/>
 	 * 指定したインデックスのキューが存在しない場合、falseが返ります。<br/></para>
 	 * </remarks>
-	 * <seealso cref='criAtomExAcb_GetCueInfoById'/>
-	 * <seealso cref='criAtomExAcb_GetCueInfoByIndex'/>
+	 * <seealso cref='CriAtomExAcb::GetCueInfo'/>
 	 */
 	public bool GetCueInfoByIndex(int index, out CriAtomEx.CueInfo info)
 	{
@@ -297,7 +290,7 @@ public class CriAtomExAcb : CriDisposable
 	 * <remarks>
 	 * <para header='説明'>キュー名を指定して、そのキューで再生される音声波形の情報を取得します。<br/>
 	 * そのキューで再生される音声波形が複数ある場合、
-	 * 初めのトラックで初めに再生される音声波形の情報が取得されます。
+	 * 初めのトラックで初めに再生される音声波形の情報が取得されます。<br/>
 	 * 指定した名前のキューが存在しない場合、falseが返ります。<br/></para>
 	 * </remarks>
 	 */
@@ -565,10 +558,10 @@ public class CriAtomExAcb : CriDisposable
 	 * <returns>ACBの状態（true = 即時解放可能、false = 再生中のプレーヤあり）</returns>
 	 * <remarks>
 	 * <para header='説明'>ACBハンドルを即座に解放可能かどうかをチェックします。<br/>
-	 * 本関数が false を返すタイミングで criAtomExAcb.Dispose 関数を実行すると、
+	 * 本関数が false を返すタイミングで ::CriAtomExAcb::Dispose 関数を実行すると、
 	 * ACBハンドルを参照しているプレーヤに対する停止処理が行われます。<br/>
 	 * （ストリーム再生用のACBハンドルの場合、ファイル読み込み完了を待つため、
-	 * criAtomExAcb.Dispose 関数内で長時間処理がブロックされる可能性があります。）<br/></para>
+	 * ::CriAtomExAcb::Dispose 関数内で長時間処理がブロックされる可能性があります。）<br/></para>
 	 * </remarks>
 	 */
 	public bool IsReadyToRelease()

@@ -31,8 +31,8 @@ namespace CriWare {
 public class Common
 {
 	/* スクリプトバージョン */
-	private const string scriptVersionString = "2.37.13LE";
-	private const int scriptVersionNumber = 0x02371300;
+	private const string scriptVersionString = "2.38.29LE";
+	private const int scriptVersionNumber = 0x02382900;
 
 	/**
 	 * <summary>CriFsInstaller APIをサポートしているか</summary>
@@ -190,29 +190,29 @@ public class Common
 	 */
 	public static int GetRequiredBinaryVersionNumber() {
 #if true
-		return 0x02371300;
+		return 0x02382900;
 #else
 #if UNITY_EDITOR
 		switch (Application.platform) {
 			case RuntimePlatform.WindowsEditor:
-				return 0x02371300;
+				return 0x02382900;
 			case RuntimePlatform.OSXEditor:
-				return 0x02371300;
+				return 0x02382900;
 			default:
-				return 0x02371300;
+				return 0x02382900;
 		}
 #elif UNITY_STANDALONE_WIN
-		return 0x02371300;
+		return 0x02382900;
 #elif UNITY_STANDALONE_OSX
-		return 0x02371300;
+		return 0x02382900;
 #elif UNITY_IOS
-		return 0x02371300;
+		return 0x02382900;
 #elif UNITY_TVOS
-		return 0x02371300;
+		return 0x02382900;
 #elif UNITY_ANDROID
-		return 0x02371300;
+		return 0x02382900;
 #else
-		return 0x02371300
+		return 0x02382900
 #endif
 #endif
     }
