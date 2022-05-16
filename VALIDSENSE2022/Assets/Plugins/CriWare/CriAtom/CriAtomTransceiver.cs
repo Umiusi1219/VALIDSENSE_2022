@@ -52,11 +52,22 @@ public class CriAtomTransceiver : CriMonoBehaviour
 	{
 		get { return this.currentRegion; }
 		set {
+			if (this.currentRegion == value) {
+				return;
+			}
+			/* Remove the reference frome the current region  */
+			if (this.currentRegion != null) {
+				this.currentRegion.referringTransceivers.Remove(this);
+			}
 			CriAtomEx3dRegion regionHandle = (value == null) ? null : value.region3dHn;
 			if (this.transceiverHn != null) {
 				this.transceiverHn.Set3dRegion(regionHandle);
 				this.transceiverHn.Update();
 				this.currentRegion = value;
+				/* Seup a reference from a new region */
+				if (this.currentRegion != null) {
+					this.currentRegion.referringTransceivers.Add(this);
+				}
 			} else {
 				Debug.LogError("[CRIWARE] Internal: The Transcevier is not initialized correctly.");
 				this.currentRegion = null;
@@ -127,8 +138,9 @@ public class CriAtomTransceiver : CriMonoBehaviour
 	protected virtual void InternalFinalize()
 	{
 		this.isInitialized = false;
-		transceiverHn.Dispose();
-		transceiverHn = null;
+		this.region3d = null;
+		this.transceiverHn.Dispose();
+		this.transceiverHn = null;
 		CriAtomPlugin.FinalizeLibrary();
 	}
 

@@ -21,6 +21,7 @@ namespace CriTimeline.Atom
 		public bool muted = false;
 		public bool ignoreBlend = false;
 		public bool loopWithinClip = false;
+		public bool stopAtClipEnd = true;
 
 		public CriAtomBehaviour templateBehaviour = new CriAtomBehaviour();
 

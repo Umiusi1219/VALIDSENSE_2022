@@ -60,7 +60,7 @@ namespace CriTimeline.Atom
 		public override void OnGraphStop(Playable playable) {
 			base.OnGraphStop(playable);
 
-			this.Stop(true);
+			this.IsClipPlaying = false;
 		}
 
 		public void Play(CriAtomSource atomSource, CriAtomClipPlayConfig config) {

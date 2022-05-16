@@ -33,7 +33,7 @@ public class CriAtomWindowPrefs : ScriptableObject
 
 		if (string.IsNullOrEmpty(FindInstance())) {
 			var script = MonoScript.FromScriptableObject(this);
-			var prefsFilePath = Path.Combine(Directory.GetParent(AssetDatabase.GetAssetPath(script)).ToString(), "CriAtomWindowPrefs.asset");
+			var prefsFilePath = Path.Combine(Path.GetDirectoryName(AssetDatabase.GetAssetPath(script)), "CriAtomWindowPrefs.asset");
 			AssetDatabase.CreateAsset(this, prefsFilePath);
 		} else {
 			EditorUtility.SetDirty(this);
@@ -172,11 +172,13 @@ public class CriAtomWindowInfo {
 
 	[Serializable]
 	public class CueInfo : InfoBase {
+		public long length;
 		public bool isPublic;
-		public CueInfo(string name, int id, string comment, bool isPublic) {
+		public CueInfo(string name, int id, string comment, long length, bool isPublic) {
 			this.name = name;
 			this.id = id;
 			this.comment = comment;
+			this.length = length;
 			this.isPublic = isPublic;
 		}
 	} /* end of class */
@@ -245,7 +247,7 @@ public class CriAtomWindowInfo {
 						}
 					}
 					if (found == false) {
-						var newCueInfo = new CueInfo(cueInfo.name, cueInfo.id, cueInfo.userData, Convert.ToBoolean(cueInfo.headerVisibility));
+						var newCueInfo = new CueInfo(cueInfo.name, cueInfo.id, cueInfo.userData, cueInfo.length, Convert.ToBoolean(cueInfo.headerVisibility));
 						acbInfo.cueInfoList.Add(newCueInfo);
 						if (newCueInfo.isPublic) {
 							acbInfo.publicCueInfoList.Add(newCueInfo);

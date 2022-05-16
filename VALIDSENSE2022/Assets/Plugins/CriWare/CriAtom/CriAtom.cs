@@ -22,7 +22,22 @@ using UnityEngine.Events;
 using System.Reflection;
 #endif
 
+/*==========================================================================
+ *      CRI Atom Unity Integration
+ *=========================================================================*/
 
+/**
+ * \addtogroup CRIATOM_UNITY_INTEGRATION
+ * @{
+ */
+
+
+/**
+ * <summary>CRIAtomライブラリのグローバルクラスです。</summary>
+ * <remarks>
+ * <para header='説明'>CRIAtomライブラリの初期化関数や、ライブラリ内で共有する変数型を含むクラスです。<br/></para>
+ * </remarks>
+ */
 public static class CriAtomPlugin
 {
 	#region Editor/Runtime共通
@@ -46,6 +61,48 @@ public static class CriAtomPlugin
 	private static int initializationCount = 0;
 
 	public static bool isInitialized { get { return initializationCount > 0; } }
+
+	/**
+	 * <summary>キューリンクコールバックの実行</summary>
+	 * <remarks>
+	 * <para header='説明'>Atom サーバースレッドにてトリガーされたキューリンクコールバックイベントを実行するための関数です。<br/>
+	 * 本関数を呼び出すと、イベントが発生していた場合は CriAtomEx::OnCueLinkCallback に登録されたコールバック関数が実行されます。</para>
+	 * <para header='注意'>本関数は CriAtom コンポーネントにより定期的に呼び出されるため、通常はユーザーが呼び出す必要はありません。<br/>
+	 * CriAtom コンポーネントを使用しない場合など、手動で呼び出す必要がある際に本関数をご利用ください。</para>
+	 * </remarks>
+	 */
+	public static void ExecuteQueuedCueLinkCallbacks()
+	{
+		criAtomUnity_ExecuteQueuedCueLinkCallbacks();
+	}
+
+	/**
+	 * <summary>シーケンスイベントコールバックの実行</summary>
+	 * <remarks>
+	 * <para header='説明'>Atom サーバースレッドにてトリガーされたコールバックマーカー同期のコールバックイベントを実行するための関数です。<br/>
+	 * 本関数を呼び出すと、イベントが発生していた場合は CriAtomExSequencer::OnCallback に登録されたコールバック関数が実行されます。</para>
+	 * <para header='注意'>本関数は CriAtom コンポーネントにより定期的に呼び出されるため、通常はユーザーが呼び出す必要はありません。<br/>
+	 * CriAtom コンポーネントを使用しない場合など、手動で呼び出す必要がある際に本関数をご利用ください。</para>
+	 * </remarks>
+	 */
+	public static void ExecuteQueuedEventCallbacks()
+	{
+		criAtomUnitySequencer_ExecuteQueuedEventCallbacks();
+	}
+
+	/**
+	 * <summary>ビート同期コールバックの実行</summary>
+	 * <remarks>
+	 * <para header='説明'>Atom サーバースレッドにてトリガーされたビート同期コールバックイベントを実行するための関数です。<br/>
+	 * 本関数を呼び出すと、イベントが発生していた場合は CriAtomExPlayer::OnBeatSyncCallback および CriAtomExBeatSync::OnCallback に登録されたコールバック関数が実行されます。</para>
+	 * <para header='注意'>本関数は CriAtom コンポーネントにより定期的に呼び出されるため、通常はユーザーが呼び出す必要はありません。<br/>
+	 * CriAtom コンポーネントを使用しない場合など、手動で呼び出す必要がある際に本関数をご利用ください。</para>
+	 * </remarks>
+	 */
+	public static void ExecuteQueuedBeatSyncCallbacks()
+	{
+		criAtomUnity_ExecuteQueuedBeatSyncCallbacks();
+	}
 
 	private static List<IntPtr> effectInterfaceList = null;
 	public static bool GetAudioEffectInterfaceList(out List<IntPtr> effect_interface_list)
@@ -354,19 +411,19 @@ public static class CriAtomPlugin
 	public static extern void criAtomUnitySequencer_SetCallback(IntPtr cbfunc);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
-	public static extern void criAtomUnitySequencer_ExecuteQueuedEventCallbacks();
+	private static extern void criAtomUnitySequencer_ExecuteQueuedEventCallbacks();
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	public static extern void criAtomUnity_SetBeatSyncCallback(IntPtr cbfunc);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
-	public static extern void criAtomUnity_ExecuteQueuedBeatSyncCallbacks();
+	private static extern void criAtomUnity_ExecuteQueuedBeatSyncCallbacks();
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	public static extern void criAtomUnity_SetCueLinkCallback(IntPtr cbfunc);
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
-	public static extern void criAtomUnity_ExecuteQueuedCueLinkCallbacks();
+	private static extern void criAtomUnity_ExecuteQueuedCueLinkCallbacks();
 
 	[DllImport(CriWare.Common.pluginName, CallingConvention = CriWare.Common.pluginCallingConvention)]
 	private static extern void criAtomUnity_SetMaxSamplingRateForStandardVoicePool(int sampling_rate_for_memory, int sampling_rate_for_streaming);
@@ -403,7 +460,7 @@ public static class CriAtomPlugin
 	private static void criAtomUnity_SetConfigAdditionalParameters_IOS(bool enable_sonicsync, uint buffering_time_ios, bool override_ipod_music_ios) { }
 	private static void criAtomUnity_SetConfigAdditionalParameters_ANDROID(bool enable_sonicsync, 
 																		   int num_low_delay_memory_voices, int num_low_delay_streaming_voices,
-																		   int sound_buffering_time,          int sound_start_buffering_time,
+																		   int sound_buffering_time,        int sound_start_buffering_time,
 																		   bool apply_hw_property) { }
 	#if !UNITY_EDITOR && UNITY_ANDROID
 	private static void criAtomUnity_ApplyHardwareProperty_ANDROID(IntPtr android_context) { }
@@ -449,6 +506,10 @@ public class CriAtomCueSheet
 	public bool IsError { get { return (loaderStatus == CriAtomExAcbLoader.Status.Error) || (!IsLoading && acb == null); } }
 }
 
+
+/**
+ * @}
+ */
 
 /**
  * \addtogroup CRIATOM_UNITY_COMPONENT
@@ -978,9 +1039,9 @@ public class CriAtom : CriMonoBehaviour
 
 	public override void CriInternalUpdate()
 	{
-		CriAtomPlugin.criAtomUnity_ExecuteQueuedCueLinkCallbacks();
-		CriAtomPlugin.criAtomUnitySequencer_ExecuteQueuedEventCallbacks();
-		CriAtomPlugin.criAtomUnity_ExecuteQueuedBeatSyncCallbacks();
+		CriAtomPlugin.ExecuteQueuedCueLinkCallbacks();
+		CriAtomPlugin.ExecuteQueuedEventCallbacks();
+		CriAtomPlugin.ExecuteQueuedBeatSyncCallbacks();
 	}
 
 	public override void CriInternalLateUpdate() { }

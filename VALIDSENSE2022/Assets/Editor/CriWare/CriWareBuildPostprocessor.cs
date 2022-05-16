@@ -141,13 +141,18 @@ public class CriWareBuildPostprocessor : ScriptableObject
 			} else { /* tvOS */
 				libPartialPath = "tvOS/libcri_mana_vpx.a";
 			}
-			string assetPath = GetAssetPath("libcri_mana_vpx", libPartialPath);
-			if (assetPath == null) {
+			string unityLibRelPath = GetAssetPath("libcri_mana_vpx", libPartialPath);
+			if (unityLibRelPath == null) {
 				isVp9Enabled = false;
 			} else {
-				assetPath = assetPath.Substring("Assets/".Length);
-				assetPath = Path.Combine("Libraries", assetPath);
-				isVp9Enabled = project.ContainsFileByRealPath(assetPath);
+				if (!(unityLibRelPath.StartsWith("Assets") || unityLibRelPath.StartsWith("Package"))) {
+					Debug.LogAssertion("[CRIWARE] Internal: Not supported directory root name : " + unityLibRelPath
+						+ "libcri_mana_vpx should be placed in the directory below Assets/ and Package/.");
+				}
+				unityLibRelPath = unityLibRelPath.Replace("\\", "/");
+				string unityRootDirName = unityLibRelPath.Split('/')[0];
+				string xcodeProjectRelPath = unityLibRelPath.Replace(unityRootDirName, "Libraries");
+				isVp9Enabled = project.ContainsFileByRealPath(xcodeProjectRelPath);
 			}
             if (isVp9Enabled) {
 				string guid = project.FindFileGuidByRealPath("Libraries/libiPhone-lib.a", PBXSourceTree.Source);

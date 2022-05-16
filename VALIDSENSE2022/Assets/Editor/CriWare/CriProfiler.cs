@@ -23,9 +23,7 @@ public partial class CriProfiler
 	public static CriProfiler GetSingleton() { return singleton; }
 
 	#region Structs and Classes
-	/**
-	 * TCP connection parameters to be send to the thread
-	 */
+	// TCP connection parameters to be send to the thread
 	protected struct TcpParams {
 		public readonly IPAddress ipAddress;
 		public readonly int port;
@@ -53,9 +51,7 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 *  TCP data buffer
-	 */
+	// TCP data buffer
 	private class RingBuffer<T> {
 		protected T[] data;
 		protected int size;
@@ -71,12 +67,8 @@ public partial class CriProfiler
 			return res + 1;
 		}
 
-		/**
-		 * <summary>
-		 * Specify the size of the buffer.
-		 * <para>The resulted size will be rounded up to the nearest 2^n number for the sake of performance.</para>
-		 * </summary>
-		 */
+		// Specify the size of the buffer.
+		// <para>The resulted size will be rounded up to the nearest 2^n number for the sake of performance.</para>
 		public RingBuffer(int _size) {
 			size = RegulateToPow2((uint)_size);
 			data = new T[size];
@@ -85,9 +77,7 @@ public partial class CriProfiler
 			mask = size - 1;
 		}
 
-		/**
-		 *  Get the number of elements in the buffer
-		 */
+		// Get the number of elements in the buffer
 		public int Count {
 			get {
 				int _count = this.tail - this.head;
@@ -102,9 +92,7 @@ public partial class CriProfiler
 			}
 		}
 
-		/**
-		 *  Index access to the buffer.
-		 */
+		// Index access to the buffer.
 		public T this[int i] {
 			get {
 				return this.data[(i + this.head) & this.mask];
@@ -114,12 +102,8 @@ public partial class CriProfiler
 			}
 		}
 
-		/**
-		 *  <summary>
-		 *  Copy [inputSize] of elements from inputData to the tail of the buffer.
-		 *  <para>return false if the buffer is full.</para>
-		 *  </summary>
-		 */
+		// Copy [inputSize] of elements from inputData to the tail of the buffer.
+		// return false if the buffer is full.
 		public bool EnBuffer(T[] inputData, int inputSize) {
 			if (this.Count + inputSize >= this.size) {
 				return false;
@@ -133,13 +117,9 @@ public partial class CriProfiler
 			return true;
 		}
 
-		/**
-		 *  <summary>
-		 *  Read [outputSize] of elements and delete it from the head of the buffer.
-		 *  <para>Return null if there is nothing to read.</para>
-		 *  <para>The resulted array may be smaller in length than requested.</para>
-		 *  </summary>
-		 */
+		// Read [outputSize] of elements and delete it from the head of the buffer.
+		// <para>Return null if there is nothing to read.</para>
+		// <para>The resulted array may be smaller in length than requested.</para>
 		public T[] DeBuffer(int outputSize) {
 			if (outputSize <= 0 || this.Count <= 0) {
 				return null;
@@ -157,11 +137,7 @@ public partial class CriProfiler
 			return res;
 		}
 
-		/**
-		 *  <summary>
-		 *  Clear the buffer. Memory spaces will still be occupied.
-		 *  </summary>
-		 */
+		// Clear the buffer. Memory spaces will still be occupied.
 		public void Clear() {
 			this.head = 0;
 			this.tail = 0;
@@ -536,9 +512,7 @@ public partial class CriProfiler
 
 	public string ipAddressString = "127.0.0.1";
 	public string LogFileSavePath { get; private set; }
-	/**
-	 * Starting the TCP sub thread.
-	 */
+	// Starting the TCP sub thread.
 	public void StartProfiling(bool saveLog, string logDirPath = null) {
 		IPAddress validIp;
 		if(IPAddress.TryParse(ipAddressString, out validIp) == false) {
@@ -592,9 +566,7 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 * Stopping the TCP sub thread.
-	 */
+	// Stopping the TCP sub thread.
 	public void StopProfiling() {
 		threadTerminator.Set();
 		ResetVals();
@@ -622,9 +594,7 @@ public partial class CriProfiler
 	#endregion
 
 	#region TCP Connection Management
-	/**
-	 * TCP connection sub thread task.
-	 */
+	// TCP connection sub thread task.
 	private void TaskTcpClient(TcpParams tcpParams) {
 		int failedConnectCnt = 0;
 
@@ -658,9 +628,7 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 *  Looping process to push the socket input to the buffer.
-	 */
+	// Looping process to push the socket input to the buffer.
 	private void BufferingLoop(TcpClient tcpClient, TcpParams tcpParams) {
 		int numBytesRead = 0;
 		byte[] chunk = new byte[tcpParams.chunkSize];
@@ -695,12 +663,11 @@ public partial class CriProfiler
 						}
 						if (enbufferRes == false) {
 							UnityEngine.Debug.LogWarning("[CRIWARE] TCP reading buffer overflowed.");
-							/**
-							 * -- buffer corrupted -> prepare to reset --
-							 * Enbuffer failure may cause incomplete packets in the packet queue.
-							 * The solution we take is skipping all incoming data until a "tail" chunk (followed by no data) arrives,
-							 * right after which the buffer will be reset.
-							 */
+							
+							// -- buffer corrupted -> prepare to reset --
+							// Enbuffer failure may cause incomplete packets in the packet queue.
+							// The solution we take is skipping all incoming data until a "tail" chunk (followed by no data) arrives,
+							// right after which the buffer will be reset.
 							this.isBufferCorrupted = true;
 						}
 					} else {
@@ -728,9 +695,7 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 * Sending control packet to start / stop receiving log data
-	 */
+	// Sending control packet to start / stop receiving log data
 	private enum SendPacketType {
 		StartLog,
 		StopLog
@@ -816,9 +781,7 @@ public partial class CriProfiler
 	#endregion
 
 	#region Parser
-	/**
-	 *  Sub thread task to extract TCP packets from the buffer.
-	 */
+	// Sub thread task to extract TCP packets from the buffer.
 	private void TaskPacketReading(int readIntervalMillisec) {
 		Stopwatch stopwatch = new Stopwatch();
 		const int threadMaxLifeMs = 20000;  /* should be longer than total TCP retrying time */
@@ -882,10 +845,8 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 *  Get the size of the packet from the header.
-	 *  Return 0 if there is no enough data to determine the size.
-	 */
+	// Get the size of the packet from the header.
+	// Return 0 if there is no enough data to determine the size.
 	private int GetPacketSize(RingBuffer<byte> buffer) {
 		if (buffer == null || buffer.Count < DATA_LENGTH_PARAM_SIZE) {
 			return 0;
@@ -1151,26 +1112,23 @@ public partial class CriProfiler
 		}
 	}
 
-	/**
-	 * Override this method to add new parsing procedure
-	 */
+	// Override this method to add new parsing procedure
 	protected virtual void UserDefinedParser(byte[] data, TcpLogHeader packetHeader) {
-		/** e.g.
-		int offset;
-		switch ((TcpCommandId)packetHeader.command) {
-			case TcpCommandId.<CRITCP_MAIL_xxx>:
-				switch (GetLogFuncId(packetHeader.function_id)) {
-					case LogFuncId.<LOG_COMMAND_xxx>:
-						<parsing>
-						break;
-					default:
-						break;
-				}
-				break;
-			default:
-				break;
-		}
-		*/
+		// e.g.
+		//int offset;
+		//switch ((TcpCommandId)packetHeader.command) {
+		//	case TcpCommandId.<CRITCP_MAIL_xxx>:
+		//		switch (GetLogFuncId(packetHeader.function_id)) {
+		//			case LogFuncId.<LOG_COMMAND_xxx>:
+		//				<parsing>
+		//				break;
+		//			default:
+		//				break;
+		//		}
+		//		break;
+		//	default:
+		//		break;
+		//}
 	}
 
 	private void AddEventLog(byte[] data) {

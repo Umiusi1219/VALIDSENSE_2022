@@ -138,7 +138,7 @@ public class CriAtomExAuxIn : CriDisposable
 	 * マイクの作成／破棄は、シーンの切り替わり等、負荷変動を許容できる
 	 * タイミングで行うようお願いいたします。<br/></para>
 	 * </remarks>
-	 * <seealso cref='CriAtomExAuxIn::Destroy'/>
+	 * <seealso cref='CriAtomExAuxIn::Dispose'/>
 	 */
 	public CriAtomExAuxIn(Config? config = null)
 	{
@@ -149,6 +149,10 @@ public class CriAtomExAuxIn : CriDisposable
 #else
 		Debug.LogError("[CRIWARE] CriAtomExAuxIn does not support this platform.");
 #endif
+	}
+
+	~CriAtomExAuxIn(){
+		Dispose();
 	}
 
 	/**
@@ -198,7 +202,9 @@ public class CriAtomExAuxIn : CriDisposable
 	public void Stop()
 	{
 #if CRIWAREPLUGIN_SUPPORT_AUXIN
-		Debug.Assert(this.handle != IntPtr.Zero, errorInvalidHandle);
+		if (this.handle == IntPtr.Zero) {
+			return;
+		}
 		criAtomAuxIn_Stop(this.handle);
 #endif
 	}

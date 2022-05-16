@@ -89,13 +89,24 @@ public class CriAtomListener : CriMonoBehaviour
 	 */
 	public CriAtomRegion region3d
 	{
-		get { return currentRegion; }
+		get { return this.currentRegion; }
 		set {
+			if (this.currentRegion == value) {
+				return;
+			}
+			/* Remove the reference frome the current region  */
+			if (this.currentRegion != null) {
+				this.currentRegion.referringListeners.Remove(this);
+			}
 			CriAtomEx3dRegion regionHandle = (value == null) ? null : value.region3dHn;
-			if (nativeListener != null) {
-				nativeListener.Set3dRegion(regionHandle);
-				nativeListener.Update();
+			if (this.nativeListener != null) {
+				this.nativeListener.Set3dRegion(regionHandle);
+				this.nativeListener.Update();
 				this.currentRegion = value;
+				/* Seup a reference from a new region */
+				if (this.currentRegion != null) {
+					this.currentRegion.referringListeners.Add(this);
+				}
 			} else {
 				Debug.LogError("[CRIWARE] Internal: CriAtomListener is not initialized correctly.");
 				this.currentRegion = null;
@@ -146,8 +157,10 @@ public class CriAtomListener : CriMonoBehaviour
 
 	private void OnDestroy()
 	{
-		if (listenersList.Contains(this))
+		if (listenersList.Contains(this)) {
 			listenersList.Remove(this);
+		}
+		region3d = null;
 		nativeListener.Dispose();
 		nativeListener = null;
 	}

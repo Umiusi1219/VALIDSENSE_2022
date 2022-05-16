@@ -33,10 +33,10 @@ namespace CriTimeline.Atom {
 	}
 
 	[CustomEditor(typeof(CriAtomClip)), CanEditMultipleObjects]
-	public class CriAtomClipEditor : Editor { }
+	public class CriAtomClipEditor : UnityEditor.Editor { }
 
 	[CustomEditor(typeof(CriAtomTrack))]
-	public class CriAtomTrackEditor : Editor {
+	public class CriAtomTrackEditor : UnityEditor.Editor {
 		private CriAtomTrack m_object;
 
 		public void OnEnable() {
@@ -54,16 +54,23 @@ namespace CriTimeline.Atom {
 			serializedObject.Update();
 			EditorGUI.BeginChangeCheck();
 
+			
+			EditorGUILayout.LabelField("Track Settings", EditorStyles.boldLabel);
+			DrawLine(Color.black);
 			m_object.m_AisacControls
-				= EditorGUILayout.TextField("Aisac Controls", m_object.m_AisacControls);
+				= EditorGUILayout.TextField("Aisac Control", m_object.m_AisacControls);
 			m_object.m_StopOnWrapping
 				= EditorGUILayout.Toggle("Stop On Wrapping", m_object.m_StopOnWrapping);
+			m_object.m_StopAtGraphEnd
+				= EditorGUILayout.Toggle("Stop At Graph End", m_object.m_StopAtGraphEnd);
 
+			EditorGUILayout.Space();
+
+			EditorGUILayout.LabelField("Unity Editor", EditorStyles.boldLabel);
 			DrawLine(Color.black);
-			EditorGUILayout.LabelField("Unity Editor");
 
 			m_object.m_IsRenderMono
-				= EditorGUILayout.Toggle("Is Render to Mono", m_object.m_IsRenderMono);
+				= EditorGUILayout.Toggle("Show Mono Waveform", m_object.m_IsRenderMono);
 
 			serializedObject.ApplyModifiedProperties();
 			if (EditorGUI.EndChangeCheck()) {
@@ -71,7 +78,7 @@ namespace CriTimeline.Atom {
 			}
 		}
 
-		private static void DrawLine(Color color, int thickness = 2, int padding = 10) {
+		private static void DrawLine(Color color, int thickness = 1, int padding = 10) {
 			Rect rect = EditorGUILayout.GetControlRect(GUILayout.Height(padding + thickness));
 			rect.height = thickness;
 			rect.y += padding / 2;

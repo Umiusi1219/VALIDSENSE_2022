@@ -19,6 +19,7 @@ namespace CriTimeline.Atom
 	public class CriAtomTrack : TrackAsset {
 		public string m_AisacControls;
 		public bool m_StopOnWrapping = true;
+		public bool m_StopAtGraphEnd = true;
 #if UNITY_EDITOR
 		public bool m_IsRenderMono = true;
 #endif
@@ -48,6 +49,7 @@ namespace CriTimeline.Atom
 				}
 				mixerBehaviour.m_AisacControls = this.m_AisacControls;
 				mixerBehaviour.m_StopOnWrapping = this.m_StopOnWrapping;
+				mixerBehaviour.m_StopAtGraphEnd = this.m_StopAtGraphEnd;
 			}
 			return mixerPlayable;
 		}

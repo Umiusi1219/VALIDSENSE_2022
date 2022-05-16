@@ -12,7 +12,7 @@ using System.IO;
 
 
 [CustomEditor(typeof(CriAtomSource))]
-public class CriAtomSourceEditor : Editor
+public class CriAtomSourceEditor : UnityEditor.Editor
 {
 	#region Variables
 	private CriAtomSource source = null;
@@ -25,7 +25,7 @@ public class CriAtomSourceEditor : Editor
 
 #if CRI_UNITY_EDITOR_PREVIEW
 	public CriAtom atomComponent;
-	private CriAtomEditor.PreviewPlayer previewPlayer;
+	private CriWare.Editor.CriAtomEditorUtilities.PreviewPlayer previewPlayer;
 	private string strPreviewAcb = null;
 	private string strPreviewAwb = null;
 	private CriAtomExAcb previewAcb = null;
@@ -45,7 +45,7 @@ public class CriAtomSourceEditor : Editor
 		/* シーンからCriAtomコンポーネントを見つけ出す */
 		atomComponent = (CriAtom)FindObjectOfType(typeof(CriAtom));
 #endif
-		previewPlayer = new CriAtomEditor.PreviewPlayer();
+		previewPlayer = new CriWare.Editor.CriAtomEditorUtilities.PreviewPlayer();
 	}
 
 	private void OnDisable() {

@@ -5,6 +5,7 @@
  ****************************************************************************/
 
 using UnityEngine;
+using System.Collections.Generic;
 
 /**
  * \addtogroup CRIATOM_UNITY_COMPONENT
@@ -38,6 +39,12 @@ public class CriAtomRegion : CriMonoBehaviour
 	public CriAtomEx3dRegion region3dHn { get; protected set; }
 	#endregion
 
+	#region Private Fields & Properties
+	internal List<CriAtomSource> referringSources = new List<CriAtomSource>();
+	internal List<CriAtomListener> referringListeners = new List<CriAtomListener>();
+	internal List<CriAtomTransceiver> referringTransceivers = new List<CriAtomTransceiver>();
+	#endregion
+
 	#region Methods
 
 	private void Awake()
@@ -64,6 +71,20 @@ public class CriAtomRegion : CriMonoBehaviour
 
 	protected virtual void InternalFinalize()
 	{
+		/* Clear references to this region */
+		while (referringSources.Count > 0) {
+			referringSources[0].region3d = null;
+		}
+		referringSources.Clear();
+		while (referringListeners.Count > 0) {
+			referringListeners[0].region3d = null;
+		}
+		referringListeners.Clear();
+		while(referringTransceivers.Count > 0) {
+			referringTransceivers[0].region3d = null;
+		}
+		referringTransceivers.Clear();
+
 		region3dHn.Dispose();
 		region3dHn = null;
 		CriAtomPlugin.FinalizeLibrary();
