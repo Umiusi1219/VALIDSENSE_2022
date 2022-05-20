@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: model_tactile.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: 1c78fdffaeedfeffe63ffeff5223feffd606feff925bfdff845cfeff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: 5a42b1dcb39604f5caa8d7f9889a6581, type: 2}
+  - {fileID: 11400000, guid: 9d947aac9a4a34d81b726fea1637817a, type: 2}
+  - {fileID: 11400000, guid: a76e6fd0bd69142ba91eba8d7ecaa013, type: 2}
+  - {fileID: 11400000, guid: 6f043fc92ed174f84970d07fc96e5251, type: 2}
+  - {fileID: 11400000, guid: 52c5c035561e34fceb36c16950a3ac03, type: 2}
+  - {fileID: 11400000, guid: c908ae5fe9c0746bca6aa458f170c9d2, type: 2}
+  - {fileID: 11400000, guid: 3680964e66021407faec4e5740b0898b, type: 2}
