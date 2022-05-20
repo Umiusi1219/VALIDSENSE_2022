@@ -9,7 +9,7 @@
         {
             "easy": {
                 "notelist": [
-                    {"type": 1, "line": 1, "time": 4000 },
+                    {"type": 1, "line": 1, "time": 6000 },
                     {"type": 0, "line": 1, "time": 7000, "endtime": 6000 },
                     {"type": 0, "line": 0, "time": 10000 },
                     {"type": 0, "line": 0, "time": 13000 },
