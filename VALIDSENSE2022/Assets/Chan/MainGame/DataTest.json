@@ -9,10 +9,13 @@
         {
             "easy": {
                 "notelist": [
+                    {"type": 1, "line": 0, "time": 6000 },
                     {"type": 1, "line": 1, "time": 6000 },
-                    {"type": 0, "line": 1, "time": 7000, "endtime": 6000 },
+                    {"type": 1, "line": 2, "time": 6000 },
+                    {"type": 1, "line": 3, "time": 6000 },
+                    {"type": 0, "line": 3, "time": 7000, "endtime": 6000 },
                     {"type": 0, "line": 0, "time": 10000 },
-                    {"type": 0, "line": 0, "time": 13000 },
+                    {"type": 0, "line": 2, "time": 13000 },
                     {"type": 1, "line": 1, "time": 16000 },
                     {"type": 1, "line": 1, "time": 18000 },
                     {"type": 0, "line": 0, "time": 20000 },                   
@@ -21,8 +24,20 @@
                     {"type": 1, "line": 1, "time": 24000 },
                     {"type": 0, "line": 0, "time": 24000 },
                     {"type": 1, "line": 1, "time": 25000 },
-                    {"type": 0, "line": 0, "time": 25000 }
-
+                    {"type": 0, "line": 0, "time": 25000 },
+                    {"type": 1, "line": 2, "time": 26000 },
+                    {"type": 1, "line": 2, "time": 28000 },
+                    {"type": 0, "line": 3, "time": 30000 },                   
+                    {"type": 1, "line": 2, "time": 31000 },
+                    {"type": 1, "line": 2, "time": 32000 },
+                    {"type": 1, "line": 2, "time": 34000 },
+                    {"type": 0, "line": 3, "time": 34000 },
+                    {"type": 1, "line": 2, "time": 35000 },
+                    {"type": 0, "line": 3, "time": 35000 },
+                    {"type": 1, "line": 0, "time": 37000 },
+                    {"type": 0, "line": 1, "time": 37000 },
+                    {"type": 1, "line": 2, "time": 37000 },
+                    {"type": 0, "line": 3, "time": 37000 }
                 ]
             }
         ,

@@ -5,18 +5,21 @@ using UnityEngine;
 public class NoteDataListCreater : MonoBehaviour
 {
     public JsonReader jsonReader;
-    public GameObject note;
-    public GameObject list;
+    //public GameObject note;
+    //public GameObject list;
 
-    public static int listNumMax0 = 0;
-    public static int listNumMax1 = 0;
+    [SerializeField]
+    public static int[] listNumMax = {0,0,0,0};
 
 
-
+    [SerializeField]
     public static List<JsonReader.NoteList> noteList_0 = new List<JsonReader.NoteList>();
+    [SerializeField]
     public static List<JsonReader.NoteList> noteList_1 = new List<JsonReader.NoteList>();
-    //public List<JsonReader.NoteList> noteList_2 = new List<JsonReader.NoteList>();
-    //public List<JsonReader.NoteList> noteList_3 = new List<JsonReader.NoteList>();
+    [SerializeField]
+    public static List<JsonReader.NoteList> noteList_2 = new List<JsonReader.NoteList>();
+    [SerializeField]
+    public static List<JsonReader.NoteList> noteList_3 = new List<JsonReader.NoteList>();
 
 
 
@@ -29,20 +32,26 @@ public class NoteDataListCreater : MonoBehaviour
             switch (item.line)
             {
                 case 0:
-                    listNumMax0++;
+                    listNumMax[0]++;
                     noteList_0.Add(item);
                     break;
                 case 1:
-                    listNumMax1++;
+                    listNumMax[1]++;
                     noteList_1.Add(item);
                     break;
+                case 2:
+                    listNumMax[2]++;
+                    noteList_2.Add(item);
+                    break;
+                case 3:
+                    listNumMax[3]++;
+                    noteList_3.Add(item);
+                    break;
+
                 default:
                     Debug.LogError("配列外参照");
                     break;
             }
-
-            Debug.Log("listNumMax0 "+ listNumMax0);
-            Debug.Log("listNumMax1 "+ listNumMax1);
 
             // //instantiate notes
             // GameObject notes = Instantiate(note,list.transform);
