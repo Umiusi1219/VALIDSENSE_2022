@@ -57,6 +57,7 @@
     <Compile Include="Assets/Live2D/Cubism/Framework/Pose/CubismPoseData.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/LookAt/CubismLookParameter.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/Motion/CubismMotionController.cs" />
+    <Compile Include="Assets/Chan/Scripts/Common/ConstRepo.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/ICubismUpdatable.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/CubismDisplayInfoPartName.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/Json/CubismDisplayInfo3Json.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Assets/Live2D/Cubism/Framework/Json/CubismUserData3Json.cs" />
     <Compile Include="Assets/Live2D/Cubism/Core/Unmanaged/CubismUnmanagedParameters.cs" />
     <Compile Include="Assets/Chan/MainGame/Notes/TestEffects/EffectScropt.cs" />
-    <Compile Include="Assets/Chan/MainGame/Notes/NoteControl.cs" />
     <Compile Include="Assets/Live2D/Cubism/Rendering/Masking/CubismMaskCommandBuffer.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/LookAt/CubismLookTargetBehaviour.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/CubismParametersInspector.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Assets/Live2D/Cubism/Framework/CubismPartsInspector.cs" />
     <Compile Include="Assets/Live2D/Cubism/Core/CubismPart.cs" />
     <Compile Include="Assets/Chan/Scripts/PlayerData.cs" />
-    <Compile Include="Assets/Chan/MainGame/Notes/NoteJudge.cs" />
+    <Compile Include="Assets/Chan/MainGame/Notes/NotesJudge.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/CubismParameterExtensionMethods.cs" />
     <Compile Include="Assets/Live2D/Cubism/Core/Unmanaged/CubismCoreDll.cs" />
     <Compile Include="Assets/Live2D/Cubism/Framework/MouthMovement/CubismMouthParameter.cs" />
