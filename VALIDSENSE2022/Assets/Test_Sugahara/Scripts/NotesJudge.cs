@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NotesJudge : MonoBehaviour
 {
@@ -23,12 +24,18 @@ public class NotesJudge : MonoBehaviour
     private long goodJudge = 100;
 
 
-    [SerializeField] GameObject viewNoteCreater;
+    [SerializeField] 
+    GameObject viewNoteCreater;
 
 
-    [SerializeField] List<GameObject> effectList;
+    [SerializeField]
+    List<GameObject> effectList;
 
-    [SerializeField] private float[] instancePosXs;
+    [SerializeField] 
+    private float[] instancePosXs;
+
+    [SerializeField]
+    Text text;
 
 
     public static NotesJudge instance;
@@ -51,6 +58,8 @@ public class NotesJudge : MonoBehaviour
             Debug.Log("JudgeTime" + MusicData.Timer);
             Instantiate(effectList[(int)JudgeType.Briliant],
                 new Vector3(instancePosXs[line], 3.0f,80.0f),new Quaternion(0, 0, 0, 0));
+
+
         }
         else if(time <= greatJudge)
         {
@@ -58,6 +67,8 @@ public class NotesJudge : MonoBehaviour
             Debug.Log("JudgeTime" + MusicData.Timer);
             Instantiate(effectList[(int)JudgeType.Great],
                 new Vector3(instancePosXs[line], 3.0f, 80.0f), new Quaternion(0, 0, 0, 0));
+
+
         }
         else if(time <= goodJudge)
         {
@@ -65,6 +76,8 @@ public class NotesJudge : MonoBehaviour
             Debug.Log("JudgeTime" + MusicData.Timer);
             Instantiate(effectList[(int)JudgeType.Good],
                 new Vector3(instancePosXs[line], 3.0f, 80.0f), new Quaternion(0, 0, 0, 0));
+
+
         }
         else
         {
@@ -72,6 +85,8 @@ public class NotesJudge : MonoBehaviour
             Debug.Log("JudgeTime" + MusicData.Timer);
             Instantiate(effectList[(int)JudgeType.Poor],
                 new Vector3(instancePosXs[line], 3.0f, 80.0f), new Quaternion(0, 0, 0, 0));
+
+
         }
 
         

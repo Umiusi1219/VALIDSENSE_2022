@@ -96,6 +96,7 @@
     <Compile Include="Assets\Live2D\Cubism\Rendering\ICubismDrawOrderHandler.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\CubismUpdateController.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\Physics\CubismPhysicsMath.cs" />
+    <Compile Include="Assets\Test_Sugahara\Scripts\sight_AnimeTest.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\MotionFade\CubismFadeStateObserver.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\Physics\CubismPhysicsInput.cs" />
     <Compile Include="Assets\Live2D\Cubism\Rendering\Masking\CubismMaskRenderer.cs" />
@@ -143,8 +144,10 @@
     <Compile Include="Assets\Live2D\Cubism\Rendering\ICubismOpacityHandler.cs" />
     <Compile Include="Assets\Live2D\Cubism\Rendering\Masking\CubismMaskController.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\ObjectExtensionMethods.cs" />
+    <Compile Include="Assets\Test_Sugahara\Scripts\hear_AnimeTest.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\CubismDontMoveOnReimportAttribute.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\Json\CubismModel3Json.cs" />
+    <Compile Include="Assets\AnimeTest.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\CubismAutoEyeBlinkInput.cs" />
     <Compile Include="Assets\Live2D\Cubism\Rendering\CubismRenderer.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\HarmonicMotion\CubismHarmonicMotionParameter.cs" />
@@ -190,6 +193,7 @@
     <Compile Include="Assets\Live2D\Cubism\Rendering\Masking\CubismMaskTexture.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\MotionFade\CubismFadeCurveType.cs" />
     <Compile Include="Assets\Chan\Scripts\InfiniteScroll\ItemControllerInfinite.cs" />
+    <Compile Include="Assets\Test_Sugahara\Scripts\tactile_AnimeTest.cs" />
     <Compile Include="Assets\Live2D\Cubism\Core\Unmanaged\CubismUnmanagedCanvasInformation.cs" />
     <Compile Include="Assets\Live2D\Cubism\Rendering\Masking\CubismMaskTransform.cs" />
     <Compile Include="Assets\Test_Sugahara\Scripts\NoteCreater.cs" />
@@ -203,10 +207,7 @@
     <Compile Include="Assets\Live2D\Cubism\Framework\Json\CubismJsonParser.cs" />
     <Compile Include="Assets\Live2D\Cubism\Core\Unmanaged\CubismUnmanagedMoc.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\HarmonicMotion\CubismHarmonicMotionController.cs" />
-    <Compile Include="Assets\Test_Sugahara\Scripts\tactile_AnimeTest.cs" />
-    <Compile Include="Assets\AnimeTest.cs" />
-    <Compile Include="Assets\Test_Sugahara\Scripts\sight_AnimeTest.cs" />
-    <Compile Include="Assets\Test_Sugahara\Scripts\hear_AnimeTest.cs" />
+    <Compile Include="Assets\Test_Sugahara\Scripts\LineOverMaterialScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Live2D\Cubism\Plugins\Windows\x86_64\Live2DCubismCore.dll" />
