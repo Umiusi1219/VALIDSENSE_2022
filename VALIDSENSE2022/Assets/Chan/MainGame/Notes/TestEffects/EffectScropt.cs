@@ -17,15 +17,15 @@ public class EffectScropt : MonoBehaviour
     {
         sprite.color = new Color(1.0f, 1.0f, 1.0f, 0.8f);
         transform.position += new Vector3(0f, 0.5f, 0f);
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.1f);
 
         sprite.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
         transform.position += new Vector3(0f, 0f, 0f);
-        yield return new WaitForSeconds(0.04f);
+        yield return new WaitForSeconds(0.08f);
 
         sprite.color = new Color(1.0f, 1.0f, 1.0f, 0.2f);
         transform.position += new Vector3(0f, 0.5f, 0f);
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.07f);
 
         this.gameObject.SetActive(false);
     }

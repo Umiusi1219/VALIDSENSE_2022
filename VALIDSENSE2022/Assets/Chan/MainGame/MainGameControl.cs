@@ -16,7 +16,7 @@ public class MainGameControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isStart)
+        if(!isStart && Input.GetKeyDown(KeyCode.P))
         {
             MusicPlayer.instance.MusicPlay(1);   
             isStart = true;

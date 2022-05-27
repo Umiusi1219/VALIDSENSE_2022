@@ -19,7 +19,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (NoteDataListCreater.listNumMax[0]  > lineNoteNum[0])
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 if (NoteDataListCreater.noteList_0[lineNoteNum[0]].time - MusicData.Timer < judgeTime)
                 {
@@ -39,7 +39,7 @@ public class PlayerInput : MonoBehaviour
 
         if (NoteDataListCreater.listNumMax[1] > lineNoteNum[1])
         {
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 if (NoteDataListCreater.noteList_1[lineNoteNum[1]].time - MusicData.Timer < judgeTime)
                 {
@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour
 
         if (NoteDataListCreater.listNumMax[2] > lineNoteNum[2])
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 if (NoteDataListCreater.noteList_2[lineNoteNum[2]].time - MusicData.Timer < judgeTime)
                 {
@@ -77,7 +77,7 @@ public class PlayerInput : MonoBehaviour
 
         if (NoteDataListCreater.listNumMax[3] > lineNoteNum[3])
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 if (NoteDataListCreater.noteList_3[lineNoteNum[3]].time - MusicData.Timer < judgeTime)
                 {
